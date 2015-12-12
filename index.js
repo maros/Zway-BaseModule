@@ -41,7 +41,6 @@ BaseModule.prototype.stop = function () {
 
 BaseModule.prototype.log = function(message) {
     if (undefined === message) return;
-    console.logJS(this);
     console.log('['+this.getName()+'-'+this.id+'] '+message);
 };
 
@@ -54,7 +53,7 @@ BaseModule.prototype.error = function(message) {
     }
 };
 
-Homely.prototype.getPresence = function() {
+BaseModule.prototype.getPresenceBoolean = function() {
     var self = this;
     
     var value = self.getDeviceValue([
@@ -64,7 +63,6 @@ Homely.prototype.getPresence = function() {
     if (typeof(value) === 'string' && value === 'on') {
         return true;
     }
-    self.log('Away!');
     return false;
 };
 
