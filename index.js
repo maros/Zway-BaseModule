@@ -193,7 +193,9 @@ BaseModule.prototype.performCommandDevices = function(criterias,command,args,aut
         if(match === true) {
             devices.push(vDev);
             if (typeof(command) !== 'undefined') {
-                vDev.performCommand(command,args);
+                setTimeout(function() {
+                    vDev.performCommand(command,args);
+                },0);
             }
             if (typeof(auto) === 'boolean') {
                 vDev.set('metrics:auto',auto);
