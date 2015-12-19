@@ -195,7 +195,7 @@ BaseModule.prototype.performCommandDevices = function(criterias,command,args,aut
             if (typeof(command) !== 'undefined') {
                 setTimeout(function() {
                     vDev.performCommand(command,args);
-                },0);
+                },1);
             }
             if (typeof(auto) === 'boolean') {
                 vDev.set('metrics:auto',auto);
