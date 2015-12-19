@@ -63,8 +63,24 @@ BaseModule.prototype.getPresenceBoolean = function() {
     
     if (typeof(value) === 'string' && value === 'on') {
         return true;
+    } else if (typeof(value) === 'undefined') {
+        self.error('Could not find presence device');
     }
     return false;
+};
+
+BaseModule.prototype.getPresenceMode = function() {
+    var self = this;
+    
+    var value = self.getDeviceValue([
+        ['probeType','=','Presence']
+    ],'metrics:mode');
+    
+    if (typeof(value) === 'undefined') {
+        self.error('Could not find presence device');
+    }
+    
+    return value;
 };
 
 BaseModule.prototype.compareDevice = function(vDev,criterias) {
