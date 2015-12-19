@@ -26,6 +26,7 @@ _module = BaseModule;
 // ----------------------------------------------------------------------------
 
 BaseModule.prototype.init = function (config) {
+    BaseModule.super_.prototype.init.call(this, config);
     var self = this;
     self.langFile = self.controller.loadModuleLang(self.getName());
 };
