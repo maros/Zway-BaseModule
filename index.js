@@ -204,3 +204,20 @@ BaseModule.prototype.performCommandDevices = function(criterias,command,args,aut
     });
     return devices;
 };
+
+BaseMoule.prototype.parseTime = function(timeString) {
+    if (typeof(timeString) === 'undefined') {
+        return;
+    }
+    
+    var match = timeString.match(/^(\d{1,2}):(\d{1,2})$/);
+    if (!match) {
+        return;
+    }
+    var hour        = parseInt(match[1],10);
+    var minute      = parseInt(match[2],10);
+    var dateCalc    = new Date();
+    dateCalc.setHours(hour, minute,0,0);
+    
+    return dateCalc;
+};
