@@ -40,6 +40,8 @@ BaseModule.prototype.stop = function () {
 // --- Module methods
 // ----------------------------------------------------------------------------
 
+Presence.prototype.presenceStates = ['home','night','away','vacation'];
+
 BaseModule.prototype.log = function(message) {
     if (undefined === message) return;
     console.log('['+this.getName()+'-'+this.id+'] '+message);
