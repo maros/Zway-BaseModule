@@ -40,7 +40,7 @@ BaseModule.prototype.stop = function () {
 // --- Module methods
 // ----------------------------------------------------------------------------
 
-Presence.prototype.presenceStates = ['home','night','away','vacation'];
+BaseModule.prototype.presenceStates = ['home','night','away','vacation'];
 
 BaseModule.prototype.log = function(message) {
     if (undefined === message) return;
@@ -207,7 +207,7 @@ BaseModule.prototype.performCommandDevices = function(criterias,command,args,aut
     return devices;
 };
 
-BaseMoule.prototype.parseTime = function(timeString) {
+BaseModule.prototype.parseTime = function(timeString) {
     if (typeof(timeString) === 'undefined') {
         return;
     }
@@ -222,4 +222,42 @@ BaseMoule.prototype.parseTime = function(timeString) {
     dateCalc.setHours(hour, minute,0,0);
     
     return dateCalc;
+};
+
+BaseModule.prototype.checkPerion = function(timeFrom,timeTo) {
+    var self = this;
+    
+    // Check from/to time
+    if (typeof(timeFrom) === 'string') {
+        timeFrom = self.parseTime(timeFrom);
+    }
+    if (typeof(timeTo) === 'string') {
+        timeTo = self.parseTime(timeTo);
+    }
+    
+    if (typeof(timeFrom) === 'undefined'
+        || typeof(timeTo) === 'undefined') {
+        return true;
+    }
+    
+    // TODO timeTo+24h if timeTo < timeFrom
+    if (timeTo < timeFrom) {
+        if (timeTo.getDate() === dateNow.getDate()) {
+            var fromHour   = timeFrom.getHours();
+            var fromMinute = timeFrom.getMinutes();
+            timeFrom.setHours(fromHour - 24);
+            // Now fix time jump on DST
+            timeFrom.setHours(fromHour,fromMinute);
+        } else {
+            var toHour     = timeTo.getHours();
+            var toMinute   = timeTo.getMinutes();
+            timeTo.setHours(toHour + 24);
+            // Now fix time jump on DST
+            timeTo.setHours(toHour,toMinute);
+        }
+    }
+    
+    if (timeFrom > dateNow || dateNow > timeTo) {
+        return false;
+    }
 };
