@@ -84,6 +84,15 @@ To simplify handling of multilevel and binary switches, metrics:level can
 both be queried with the values 'on','off', true and false. (ie. 
 ['metrics:level','=','on'] would also find multilevel switches with level >= 1
 
+## parseTime
+
+Parses a string in the format HH:MM and returns a Date object (current day)
+
+## checkPeriod
+
+Expects two time strings marking a period, and calculates if the period
+is currently active.
+
 # Configuration
 
 No configuration required
