@@ -42,6 +42,8 @@ BaseModule.prototype.stop = function () {
 
 BaseModule.prototype.presenceStates = ['home','night','away','vacation'];
 
+/* Log helper functions */
+
 BaseModule.prototype.log = function(message) {
     if (undefined === message) return;
     console.log('['+this.getName()+'-'+this.id+'] '+message);
@@ -55,6 +57,8 @@ BaseModule.prototype.error = function(message) {
         console.error('['+this.getName()+'_'+this.id+'] '+message);
     //}
 };
+
+/* Presence helper functions */
 
 BaseModule.prototype.getPresenceBoolean = function() {
     var self = this;
@@ -83,6 +87,25 @@ BaseModule.prototype.getPresenceMode = function() {
     }
     
     return value;
+};
+
+/* Device helper functions */
+
+BaseModule.prototype.processDeviceList = function(devices,callback) {
+    var self = this;
+    if (! _.isArray(devices) && _.isFunction(callback)) {
+        self.error('Invalid arguments for processDeviceList');
+        return;
+    }
+    
+    _.each(devices,function(deviceId) {
+        var deviceObject = self.controller.devices.get(deviceId);
+        if (deviceObject === null) {
+            self.error('Device not found: '+deviceId);
+        } else {
+            callback(deviceObject);
+        }
+    });
 };
 
 BaseModule.prototype.compareDevice = function(vDev,criterias) {
