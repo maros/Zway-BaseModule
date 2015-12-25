@@ -207,6 +207,8 @@ BaseModule.prototype.performCommandDevices = function(criterias,command,args,aut
     return devices;
 };
 
+/* Time helper functions */
+
 BaseModule.prototype.parseTime = function(timeString) {
     if (typeof(timeString) === 'undefined') {
         return;
@@ -224,8 +226,10 @@ BaseModule.prototype.parseTime = function(timeString) {
     return dateCalc;
 };
 
-BaseModule.prototype.checkPerion = function(timeFrom,timeTo) {
+BaseModule.prototype.checkPeriod = function(timeFrom,timeTo) {
     var self = this;
+    
+    var dateNow = new Date();
     
     // Check from/to time
     if (typeof(timeFrom) === 'string') {
@@ -260,4 +264,6 @@ BaseModule.prototype.checkPerion = function(timeFrom,timeTo) {
     if (timeFrom > dateNow || dateNow > timeTo) {
         return false;
     }
+    
+    return true;
 };
