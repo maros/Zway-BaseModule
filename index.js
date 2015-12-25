@@ -51,11 +51,8 @@ BaseModule.prototype.log = function(message) {
 
 BaseModule.prototype.error = function(message) {
     if (undefined === message) message = 'An unknown error occured';
-    //if (null !== this.error.caller) {
-    //    console.error('['+this.getName()+'_'+this.id+'] '+message+' at '+this.error.caller.name);
-    //} else {
-        console.error('['+this.getName()+'_'+this.id+'] '+message);
-    //}
+    var error = new Error(message);
+    console.error('['+this.getName()+'_'+this.id+'] '+message+' at '+error.stack);
 };
 
 /* Presence helper functions */
