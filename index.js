@@ -17,6 +17,7 @@ function BaseModule (id, controller) {
     BaseModule.super_.call(this, id, controller);
     
     this.langFile       = undefined;
+    this.callbackBase   = undefined;
 }
 
 inherits(BaseModule, AutomationModule);
@@ -30,11 +31,24 @@ _module = BaseModule;
 BaseModule.prototype.init = function (config) {
     BaseModule.super_.prototype.init.call(this, config);
     var self = this;
+    
     self.langFile = self.controller.loadModuleLang(self.getName());
+    
+    if (self.getName() === 'BaseModule') {
+        self.log('Init callbacks');
+        self.callbackBase = _.bind(self.handleLevelChange,self);
+        self.controller.devices.on('change:metrics:level',self.callbackBase);
+    }
 };
 
 BaseModule.prototype.stop = function () {
     var self = this;
+    
+    if (self.getName() === 'BaseModule') {
+        self.controller.devices.off('change:metrics:level',self.callbackBase);
+        self.callbackBase = undefined;
+    }
+    
     BaseModule.super_.prototype.stop.call(this);
 };
 
@@ -43,6 +57,29 @@ BaseModule.prototype.stop = function () {
 // ----------------------------------------------------------------------------
 
 BaseModule.prototype.presenceStates = ['home','night','away','vacation'];
+
+BaseModule.prototype.handleLevelChange = function(vDev) {
+    var self = this;
+    
+    var lastLevel   = vDev.get('metrics:lastLevel');
+    var newLevel    = vDev.get('metrics:level');
+    var changeTime  = Math.floor(new Date().getTime() / 1000);
+    
+    // No lastlevel
+    if (typeof(lastLevel) === 'undefined') {
+        
+        vDev.set('metrics:changeTime',changeTime,true,{ silent: true });
+        vDev.set('metrics:lastLevel',newLevel,{ silent: true });
+        return;
+    }
+    
+    // Not changed
+    if (lastLevel === newLevel) return;
+    
+    // Set changeTime
+    vDev.set('metrics:changeTime',changeTime,true,{ silent: true });
+    vDev.set('metrics:lastLevel',newLevel,true,{ silent: true });
+};
 
 /* Log helper functions */
 
