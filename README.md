@@ -3,11 +3,29 @@
 Module which provides many useful functions for other automation modules.
 Has no user facing functionality on its own.
 
+For basic usage just replace one line from the module initialisation
+
+'''
+inherits(MyModule, BaseModule); // instead of AutomationModule
+'''
+
+BaseModule helps module authors with these utilities:
+
+* Logging with prefixes instead of console.log and error
+* Timestamp of last real change in every vDev (metrics:changeTime)
+* Presence (via the Presence module)
+* Find devices based on criteria
+* Process devices from list of device IDs
+* Parse time
+* Compare time periods
+* Secure timeout handling
+
 # Methods
 
 ## log, error
 
 Log messages and errors to console with module name and id prefix
+instead of console.log and console.error
 
 ## presenceModes
 
