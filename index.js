@@ -91,7 +91,7 @@ BaseModule.prototype.log = function(message) {
 BaseModule.prototype.error = function(message) {
     if (undefined === message) message = 'An unknown error occured';
     var error = new Error(message);
-    console.error('['+this.getName()+'_'+this.id+'] '+message+' at '+error.stack);
+    console.error('['+this.getName()+'_'+this.id+'] '+error.stack);
 };
 
 /* Presence helper functions */
