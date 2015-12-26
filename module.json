@@ -1,9 +1,9 @@
 {
    "author" : "Maroš Kollár",
    "category" : "developers_stuff",
-   "defaults":{
-       "description":"__description__",
-       "title":"__title__"
+   "defaults" : {
+      "description" : "__description__",
+      "title" : "__title__"
    },
    "dependencies" : [],
    "homepage" : "http://k-1.com",
