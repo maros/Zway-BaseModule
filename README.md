@@ -9,6 +9,10 @@ Has no user facing functionality on its own.
 
 Log messages and errors to console with module name and id prefix
 
+## presenceModes
+
+List of all available presence modes.
+
 ## getPresenceBoolean
 
 Returns presence state as boolean from the presence device 
@@ -83,6 +87,16 @@ device matches if any of the array values matches.
 To simplify handling of multilevel and binary switches, metrics:level can 
 both be queried with the values 'on','off', true and false. (ie. 
 ['metrics:level','=','on'] would also find multilevel switches with level >= 1
+
+## processDeviceList
+
+Processes a callback for each device in the list of device 
+
+'''
+self.processDeviceList(self.config.devices,function(vDev) {
+    // Do something
+});
+'''
 
 ## parseTime
 
