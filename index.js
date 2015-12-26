@@ -56,7 +56,7 @@ BaseModule.prototype.stop = function () {
 // --- Module methods
 // ----------------------------------------------------------------------------
 
-BaseModule.prototype.presenceStates = ['home','night','away','vacation'];
+BaseModule.prototype.presenceModes = ['home','night','away','vacation'];
 
 BaseModule.prototype.handleLevelChange = function(vDev) {
     var self = this;
