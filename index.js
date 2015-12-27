@@ -307,18 +307,19 @@ BaseModule.prototype.checkPeriod = function(timeFrom,timeTo) {
     
     // TODO timeTo+24h if timeTo < timeFrom
     if (timeTo < timeFrom) {
-        if (timeTo.getDate() === dateNow.getDate()) {
-            var fromHour   = timeFrom.getHours();
-            var fromMinute = timeFrom.getMinutes();
-            timeFrom.setHours(fromHour - 24);
-            // Now fix time jump on DST
-            timeFrom.setHours(fromHour,fromMinute);
-        } else {
-            var toHour     = timeTo.getHours();
-            var toMinute   = timeTo.getMinutes();
+        if (dateNow > timeFrom) {
+        //if (timeTo.getDate() === dateNow.getDate()) {
+            var toHour   = timeTo.getHours();
+            var toMinute = timeTo.getMinutes();
             timeTo.setHours(toHour + 24);
             // Now fix time jump on DST
             timeTo.setHours(toHour,toMinute);
+        } else if (timeTo < dateNow) {
+            var fromHour     = timeFrom.getHours();
+            var fromMinute   = timeFrom.getMinutes();
+            timeFrom.setHours(fromHour - 24);
+            // Now fix time jump on DST
+            timeFrom.setHours(fromHour,fromMinute);
         }
     }
     
