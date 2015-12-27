@@ -67,7 +67,6 @@ BaseModule.prototype.handleLevelChange = function(vDev) {
     
     // No lastlevel
     if (typeof(lastLevel) === 'undefined') {
-        
         vDev.set('metrics:changeTime',changeTime,true,{ silent: true });
         vDev.set('metrics:lastLevel',newLevel,{ silent: true });
         return;
@@ -76,9 +75,12 @@ BaseModule.prototype.handleLevelChange = function(vDev) {
     // Not changed
     if (lastLevel === newLevel) return;
     
-    // Set changeTime
-    vDev.set('metrics:changeTime',changeTime,true,{ silent: true });
-    vDev.set('metrics:lastLevel',newLevel,true,{ silent: true });
+    setTimeout(function() {
+        // Set changeTime
+        self.log('Set lastLevel to '+newLevel);
+        vDev.set('metrics:changeTime',changeTime,true,{ silent: true });
+        vDev.set('metrics:lastLevel',newLevel,true,{ silent: true });
+    },1);
 };
 
 /* Log helper functions */
@@ -320,6 +322,24 @@ BaseModule.prototype.checkPeriod = function(timeFrom,timeTo) {
         }
     }
     
+    /*
+    if (end < start) {
+        if (dateNow > start) {
+            var endHour     = end.getHours();
+            var endMinute   = end.getMinutes();
+            end.setHours(endHour + 24);
+            // Now fix time jump on DST
+            end.setHours(endHour,endMinute);
+        } else if (end > dateNow) {
+            var startHour   = start.getHours();
+            var startMinute = start.getMinutes();
+            start.setHours(startHour - 24);
+            // Now fix time jump on DST
+            start.setHours(startHour,startMinute);
+        }
+    }
+    */
+    
     if (timeFrom > dateNow || dateNow > timeTo) {
         return false;
     }
@@ -413,7 +433,8 @@ function Timeout(scope,fn,interval) {
         args[i] = arguments[i+3];
     }
     args.unshift(scope);
-
+    fn          = fn || function() {};
+    
     self.fn     = Function.prototype.bind.apply(fn,args);
     self.id     = setTimeout(self.run.bind(self),interval);
     self.cleared= false;
