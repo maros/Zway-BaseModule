@@ -323,8 +323,6 @@ BaseModule.prototype.checkPeriod = function(timeFrom,timeTo) {
         }
     }
     
-    self.log('Check between '+timeFrom+'-'+timeTo);
-    
     /*
     if (end < start) {
         if (dateNow > start) {
@@ -344,9 +342,11 @@ BaseModule.prototype.checkPeriod = function(timeFrom,timeTo) {
     */
     
     if (timeFrom > dateNow || dateNow > timeTo) {
+        self.log('No match '+timeFrom+'-'+timeTo);
         return false;
     }
     
+    self.log('Match '+timeFrom+'-'+timeTo);
     return true;
 };
 
