@@ -1,2 +1,8 @@
+1.01 2015 Dec 29, Tue
+    * Fix time period calculation
+    * German translation
+    * Delayed lastLevel set
+    * Fix duplicate error message
+
 1.00 2015 Dec 26, Sat
     * Initial release

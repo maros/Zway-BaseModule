@@ -1,6 +1,6 @@
 /*** BaseModule Z-Way HA module *******************************************
 
-Version: 1.00
+Version: 1.01
 (c) Maroš Kollár, 2015
 -----------------------------------------------------------------------------
 Author: Maroš Kollár <maros@k-1.com>
@@ -322,6 +322,8 @@ BaseModule.prototype.checkPeriod = function(timeFrom,timeTo) {
             timeFrom.setHours(fromHour,fromMinute);
         }
     }
+    
+    self.log('Check between '+timeFrom+'-'+timeTo);
     
     /*
     if (end < start) {
