@@ -32,9 +32,9 @@ BaseModule.prototype.init = function (config) {
     BaseModule.super_.prototype.init.call(this, config);
     var self = this;
     
-    self.langFile = self.controller.loadModuleLang(self.getName());
+    self.langFile = self.controller.loadModuleLang(self.constructor.name);
     
-    if (self.getName() === 'BaseModule') {
+    if (self.constructor.name === 'BaseModule') {
         self.log('Init callbacks');
         self.callbackBase = _.bind(self.handleLevelChange,self);
         self.controller.devices.on('change:metrics:level',self.callbackBase);
@@ -44,7 +44,7 @@ BaseModule.prototype.init = function (config) {
 BaseModule.prototype.stop = function () {
     var self = this;
     
-    if (self.getName() === 'BaseModule') {
+    if (self.constructor.name === 'BaseModule') {
         self.controller.devices.off('change:metrics:level',self.callbackBase);
         self.callbackBase = undefined;
     }
@@ -87,13 +87,13 @@ BaseModule.prototype.handleLevelChange = function(vDev) {
 
 BaseModule.prototype.log = function(message) {
     if (undefined === message) return;
-    console.log('['+this.getName()+'-'+this.id+'] '+message);
+    console.log('['+this.constructor.name+'-'+this.id+'] '+message);
 };
 
 BaseModule.prototype.error = function(message) {
     if (undefined === message) message = 'An unknown error occured';
     var error = new Error(message);
-    console.error('['+this.getName()+'_'+this.id+'] '+error.stack);
+    console.error('['+this.constructor.name+'_'+this.id+'] '+error.stack);
 };
 
 /* Presence helper functions */
