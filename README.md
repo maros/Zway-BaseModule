@@ -5,9 +5,9 @@ Has no user facing functionality on its own.
 
 For basic usage just replace one line from the module initialisation
 
-'''
+```javascript
 inherits(MyModule, BaseModule); // instead of AutomationModule
-'''
+```
 
 BaseModule helps module authors with these utilities:
 
@@ -41,9 +41,9 @@ Returns the current presence mode from the presence device
 
 ## getDevices
 
-'''
+```javascript
 var myBatteryDevices = self.getDevices([['probeTitle','=','Battery']]);
-'''
+```
 
 Returns a list of devices that match the given criteria. Criteria are 
 evaluated using the compareDevice method.
@@ -54,12 +54,12 @@ Works like getDevices, but returns the first matching device.
 
 ## getDeviceValue
 
-'''
+```javascript
 var temperature = self.getDeviceValue([
         ['probeTitle','=','temperature'],
         ['location','=',3]
     ],'metrics:level');
-'''
+```
 
 Returns the selected value of the the first matching device. If no value is
 given metrics:level will be returned. 
@@ -73,12 +73,12 @@ device auto flag may be set.
 
 The following example turns sets all dimmers in room 3 to 33%, and also sets
 the metrics:auto flag to true.
-'''
+```javascript
 var temperature = self.performCommandDevices([
         ['deviceType','=','switchMultilevel'],
         ['location','=',3]
     ],'exact',{ 'level': 33 },true);
-'''
+```
 
 ## compareDevice
 
@@ -88,11 +88,11 @@ getDevices to check if a device matches given criteria or not.
 Criteria must be supplied as an array of arrays where the nested array has 
 three values.
 
-'''
+```
 [
     [ KEY, COMPARISON, VALUE ]
 ]
-'''
+```
 
 Key may be any key from the virtual device object (with colons when using 
 nested keys) and additionally zwaveId.
@@ -110,11 +110,11 @@ both be queried with the values 'on','off', true and false. (ie.
 
 Processes a callback for each device in the list of device 
 
-'''
+```javascript
 self.processDeviceList(self.config.devices,function(vDev) {
     // Do something
 });
-'''
+``
 
 ## parseTime
 
@@ -155,6 +155,9 @@ git checkout tags/1.02
 # For development version
 git checkout -b master --track origin/master
 ```
+
+Alternatively this module can be installed via the Z-Wave.me app store. Just
+go to Management > App Store Access and add 'k1_beta' access token.
 
 # License
 
