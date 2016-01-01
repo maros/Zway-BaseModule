@@ -73,7 +73,7 @@ BaseModule.prototype.handleLevelChange = function(vDev) {
     }
     
     // Not changed
-    if (lastLevel === newLevel) return;
+    if (lastLevel == newLevel) return;
     
     setTimeout(function() {
         // Set changeTime
