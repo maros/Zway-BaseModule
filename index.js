@@ -77,7 +77,7 @@ BaseModule.prototype.handleLevelChange = function(vDev) {
     
     setTimeout(function() {
         // Set changeTime
-        self.log('Set lastLevel to '+newLevel);
+        self.log('Set lastLevel to '+newLevel+' for '+vDev.id+' (was '+lastLevel+')');
         vDev.set('metrics:changeTime',changeTime,true,{ silent: true });
         vDev.set('metrics:lastLevel',newLevel,true,{ silent: true });
     },1);
