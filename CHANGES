@@ -1,3 +1,10 @@
+1.02 2016 Jan 02, Sat
+    * Clarify log messages
+    * Coerce for comparison
+    * Update homepage
+    * Use constructor.name instead of getName to fetch class name
+    * Update readme
+
 1.01 2015 Dec 29, Tue
     * Fix time period calculation
     * German translation
