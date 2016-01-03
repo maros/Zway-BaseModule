@@ -306,15 +306,14 @@ BaseModule.prototype.checkPeriod = function(timeFrom,timeTo) {
     }
     
     // TODO timeTo+24h if timeTo < timeFrom
-    if (timeTo < timeFrom) {
-        if (dateNow > timeFrom) {
-        //if (timeTo.getDate() === dateNow.getDate()) {
+    if (timeFrom > timeTo) {
+        if (timeTo < dateNow) {
             var toHour   = timeTo.getHours();
             var toMinute = timeTo.getMinutes();
             timeTo.setHours(toHour + 24);
             // Now fix time jump on DST
             timeTo.setHours(toHour,toMinute);
-        } else if (timeTo < dateNow) {
+        } else {
             var fromHour     = timeFrom.getHours();
             var fromMinute   = timeFrom.getMinutes();
             timeFrom.setHours(fromHour - 24);
@@ -322,24 +321,6 @@ BaseModule.prototype.checkPeriod = function(timeFrom,timeTo) {
             timeFrom.setHours(fromHour,fromMinute);
         }
     }
-    
-    /*
-    if (end < start) {
-        if (dateNow > start) {
-            var endHour     = end.getHours();
-            var endMinute   = end.getMinutes();
-            end.setHours(endHour + 24);
-            // Now fix time jump on DST
-            end.setHours(endHour,endMinute);
-        } else if (end > dateNow) {
-            var startHour   = start.getHours();
-            var startMinute = start.getMinutes();
-            start.setHours(startHour - 24);
-            // Now fix time jump on DST
-            start.setHours(startHour,startMinute);
-        }
-    }
-    */
     
     if (timeFrom > dateNow || dateNow > timeTo) {
         self.log('No match '+timeFrom+'-'+timeTo);
