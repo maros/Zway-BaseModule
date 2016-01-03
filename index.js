@@ -67,7 +67,7 @@ BaseModule.prototype.handleLevelChange = function(vDev) {
     
     // No lastlevel
     if (typeof(lastLevel) === 'undefined') {
-        vDev.set('metrics:changeTime',changeTime,true,{ silent: true });
+        vDev.set('metrics:changeTime',changeTime,true);
         vDev.set('metrics:lastLevel',newLevel,{ silent: true });
         return;
     }
@@ -78,7 +78,7 @@ BaseModule.prototype.handleLevelChange = function(vDev) {
     setTimeout(function() {
         // Set changeTime
         self.log('Set lastLevel to '+newLevel+' for '+vDev.id+' (was '+lastLevel+')');
-        vDev.set('metrics:changeTime',changeTime,true,{ silent: true });
+        vDev.set('metrics:changeTime',changeTime,true);
         vDev.set('metrics:lastLevel',newLevel,true,{ silent: true });
     },1);
 };
