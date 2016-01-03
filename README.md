@@ -9,6 +9,17 @@ For basic usage just replace one line from the module initialisation
 inherits(MyModule, BaseModule); // instead of AutomationModule
 ```
 
+Also add BaseModule as a dependency in module.json
+```json
+{
+   "moduleName": "MyModule",
+   "dependencies" : ["BaseModule"],
+   ...
+```
+
+And finally instantiate the module via Apps > Local Apps > Base Module >
+Add App
+
 BaseModule helps module authors with these utilities:
 
 * Logging with prefixes instead of console.log and error
