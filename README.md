@@ -18,14 +18,14 @@ Also add BaseModule as a dependency in module.json
 ```
 
 And finally instantiate the module via Apps > Local Apps > Base Module >
-Add App
+Add App.
 
 BaseModule helps module authors with these utilities:
 
 * Logging with prefixes instead of console.log and error
-* Timestamp of last real change in every vDev (metrics:changeTime)
-* Presence (via the Presence module)
-* Find devices based on criteria
+* Timestamp and event for real change in every vDev (metrics:changeTime)
+* Presence states (via the Presence module)
+* Find devices based on various criterias
 * Process devices from list of device IDs
 * Parse time
 * Compare time periods
@@ -67,9 +67,9 @@ Works like getDevices, but returns the first matching device.
 
 ```javascript
 var temperature = self.getDeviceValue([
-        ['probeTitle','=','temperature'],
-        ['location','=',3]
-    ],'metrics:level');
+    ['probeTitle','=','temperature'],
+    ['location','=',3]
+],'metrics:level');
 ```
 
 Returns the selected value of the the first matching device. If no value is
@@ -84,11 +84,12 @@ device auto flag may be set.
 
 The following example turns sets all dimmers in room 3 to 33%, and also sets
 the metrics:auto flag to true.
+
 ```javascript
 var temperature = self.performCommandDevices([
-        ['deviceType','=','switchMultilevel'],
-        ['location','=',3]
-    ],'exact',{ 'level': 33 },true);
+    ['deviceType','=','switchMultilevel'],
+    ['location','=',3]
+],'exact',{ 'level': 33 },true);
 ```
 
 ## compareDevice
@@ -133,8 +134,8 @@ Parses a string in the format HH:MM and returns a Date object (current day)
 
 ## checkPeriod
 
-Expects two time strings marking a period, and calculates if the period
-is currently active.
+Expects two time strings (HH:MM) marking a period, and calculates if the 
+period is currently active.
 
 # Configuration
 
@@ -146,7 +147,9 @@ No virtual device is created
 
 # Events
 
-No events are emitted
+All virtual devices will emit a modify:metrics:level event if the 
+metrics:level value was modified. In contrast to change this event will only
+be triggered if metrics:level was set with a different value.
 
 # Installation
 

@@ -17,7 +17,6 @@ function BaseModule (id, controller) {
     BaseModule.super_.call(this, id, controller);
     
     this.langFile       = undefined;
-    this.callbackBase   = undefined;
 }
 
 inherits(BaseModule, AutomationModule);
@@ -34,9 +33,10 @@ BaseModule.prototype.init = function (config) {
     
     self.langFile = self.controller.loadModuleLang(self.constructor.name);
     
+    // Only for BaseModule instance
     if (self.constructor.name === 'BaseModule') {
         self.log('Init callbacks');
-        self.callbackBase = _.bind(self.handleLevelChange,self);
+        self.callbackBase = _.bind(self.handleLevelModification,self);
         self.controller.devices.on('change:metrics:level',self.callbackBase);
     }
 };
@@ -44,6 +44,7 @@ BaseModule.prototype.init = function (config) {
 BaseModule.prototype.stop = function () {
     var self = this;
     
+    // Only for BaseModule instance
     if (self.constructor.name === 'BaseModule') {
         self.controller.devices.off('change:metrics:level',self.callbackBase);
         self.callbackBase = undefined;
@@ -58,16 +59,16 @@ BaseModule.prototype.stop = function () {
 
 BaseModule.prototype.presenceModes = ['home','night','away','vacation'];
 
-BaseModule.prototype.handleLevelChange = function(vDev) {
+BaseModule.prototype.handleLevelModification = function(vDev) {
     var self = this;
     
-    var lastLevel   = vDev.get('metrics:lastLevel');
-    var newLevel    = vDev.get('metrics:level');
-    var changeTime  = Math.floor(new Date().getTime() / 1000);
+    var lastLevel           = vDev.get('metrics:lastLevel');
+    var newLevel            = vDev.get('metrics:level');
+    var modificationTime    = Math.floor(new Date().getTime() / 1000);
     
-    // No lastlevel
+    // No lastlevel - set it for the first time
     if (typeof(lastLevel) === 'undefined') {
-        vDev.set('metrics:changeTime',changeTime,true);
+        vDev.set('metrics:modificationTime',modificationTime,true,{ silent: true });
         vDev.set('metrics:lastLevel',newLevel,{ silent: true });
         return;
     }
@@ -76,11 +77,15 @@ BaseModule.prototype.handleLevelChange = function(vDev) {
     if (lastLevel == newLevel) return;
     
     setTimeout(function() {
-        // Set changeTime
+        // Set modificationTime
         self.log('Set lastLevel to '+newLevel+' for '+vDev.id+' (was '+lastLevel+')');
-        vDev.set('metrics:changeTime',changeTime,true);
+        vDev.set('metrics:modificationTime',modificationTime,true,{ silent: true });
         vDev.set('metrics:lastLevel',newLevel,true,{ silent: true });
     },1);
+    
+    // Bind to modify:metrics:level to get real changes
+    self.controller.devices.emit('modify:metrics:level',vDev,'metrics:level');
+    vDev.emit('modify:metrics:level',vDev,'metrics:level');
 };
 
 /* Log helper functions */
