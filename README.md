@@ -126,7 +126,7 @@ Processes a callback for each device in the list of device
 self.processDeviceList(self.config.devices,function(vDev) {
     // Do something
 });
-``
+```
 
 ## parseTime
 
@@ -169,6 +169,9 @@ git checkout tags/1.02
 # For development version
 git checkout -b master --track origin/master
 ```
+
+Even though this module has no user-facing functionallity on its own it has
+to be insantiated via Apps > Local Apps before it can be used by other modules.
 
 Alternatively this module can be installed via the Z-Wave.me app store. Just
 go to Management > App Store Access and add 'k1_beta' access token.
