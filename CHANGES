@@ -1,3 +1,11 @@
+1.03 2016 Jan 08, Fri
+    * Rename title/description key to make module work in appstore
+    * Clarify documentation
+    * modify:metrics:level events
+    * Update documentation
+    * Emit event on real change
+    * Fix period parser
+
 1.02 2016 Jan 02, Sat
     * Clarify log messages
     * Coerce for comparison
