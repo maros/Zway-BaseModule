@@ -1,4 +1,4 @@
 {
-   "description" : "This module is required by many other automation modules. It does not provide any user functionality on its own",
-   "title" : "Base Module"
+   "m_descr" : "This module is required by many other automation modules. It does not provide any user functionality on its own",
+   "m_title" : "Base Module"
 }

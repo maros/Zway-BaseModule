@@ -1,4 +1,4 @@
 {
-   "description" : "Dieses Modul wird von vielen anderen Automatisierungs Modulen benötig. Es hat keine eigene Funktionalität, beitet aber viele Hilfsfunktionen für andere Module.",
-   "title" : "Basis Module"
+   "m_descr" : "Dieses Modul wird von vielen anderen Automatisierungs Modulen benötig. Es hat keine eigene Funktionalität, beitet aber viele Hilfsfunktionen für andere Module.",
+   "m_title" : "Basis Module"
 }
