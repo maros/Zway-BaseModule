@@ -1,4 +1,4 @@
 {
-   "m_descr" : "This module is required by many other automation modules. It does not provide any user functionality on its own\nCheck https://github.com/maros/Zway-BaseModule//blob/master/README.md for detailed documentation.",
+   "m_descr" : "This module is required by many other automation modules. It does not provide any user functionality on its own.<br/>Check https://github.com/maros/Zway-BaseModule//blob/master/README.md for detailed documentation.",
    "m_title" : "Base Module"
 }
