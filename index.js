@@ -328,12 +328,29 @@ BaseModule.prototype.checkPeriod = function(timeFrom,timeTo) {
     }
     
     if (timeFrom > dateNow || dateNow > timeTo) {
-        self.log('No match '+timeFrom+'-'+timeTo);
         return false;
     }
     
     self.log('Match '+timeFrom+'-'+timeTo);
     return true;
+};
+
+BaseModule.prototype.compare = function (val1, op, val2) {
+    if (op === "=") {
+        return val1 === val2;
+    } else if (op === "!=") {
+        return val1 !== val2;
+    } else if (op === ">") {
+        return val1 > val2;
+    } else if (op === "<") {
+        return val1 < val2;
+    } else if (op === ">=") {
+        return val1 >= val2;
+    } else if (op === "<=") {
+        return val1 <= val2;
+    }
+    
+    return null; // error!!  
 };
 
 //----------------------------------------------------------------------------
