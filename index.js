@@ -310,7 +310,7 @@ BaseModule.prototype.checkPeriod = function(timeFrom,timeTo) {
         return true;
     }
     
-    // TODO timeTo+24h if timeTo < timeFrom
+    // Period over midnight
     if (timeFrom > timeTo) {
         if (timeTo < dateNow) {
             var toHour   = timeTo.getHours();
