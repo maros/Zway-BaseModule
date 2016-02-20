@@ -10,12 +10,16 @@
    "icon" : "icon.png",
    "maturity" : "stable",
    "moduleName" : "BaseModule",
-   "options" : {},
+   "options" : {
+       "fields" : {}
+   },
    "repository" : {
       "source" : "https://github.com/maros/Zway-BaseModule",
       "type" : "git"
    },
-   "schema" : {},
+   "schema" : {
+       "properties" : {}
+   },
    "singleton" : true,
    "version" : 1.04
 }
