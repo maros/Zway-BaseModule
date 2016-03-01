@@ -139,15 +139,22 @@ BaseModule.prototype.processDeviceList = function(devices,callback) {
     if (! _.isArray(devices) && _.isFunction(callback)) {
         self.error('Invalid arguments for processDeviceList');
         return;
+    } else if (_.isArray(devices)) {
+        devices = [ devices ];
     }
     
-    _.each(devices,function(deviceId) {
-        var deviceObject = self.controller.devices.get(deviceId);
-        if (deviceObject === null) {
-            self.error('Device not found: '+deviceId);
+    _.each(devices,function(device) {
+        var deviceObject;
+        if (typeof(device) === 'number') {
+            deviceObject = self.controller.devices.get(device);
+            if (deviceObject === null) {
+                self.error('Device not found: '+device);
+                return;
+            }
         } else {
-            callback(deviceObject);
+            deviceObject = device;
         }
+        callback(deviceObject);
     });
 };
 
