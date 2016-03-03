@@ -137,16 +137,18 @@ BaseModule.prototype.getPresenceMode = function() {
 
 BaseModule.prototype.processDeviceList = function(devices,callback) {
     var self = this;
-    if (! _.isArray(devices) && _.isFunction(callback)) {
+    if (! _.isFunction(callback)) {
         self.error('Invalid arguments for processDeviceList');
         return;
-    } else if (! _.isArray(devices)) {
+    }
+    
+    if (! _.isArray(devices)) {
         devices = [ devices ];
     }
     
     _.each(devices,function(device) {
         var deviceObject;
-        if (typeof(device) === 'number') {
+        if (typeof(device) === 'string') {
             deviceObject = self.controller.devices.get(device);
             if (deviceObject === null) {
                 self.error('Device not found: '+device);
@@ -155,7 +157,9 @@ BaseModule.prototype.processDeviceList = function(devices,callback) {
         } else {
             deviceObject = device;
         }
-        callback(deviceObject);
+        if (typeof(deviceObject) === 'object') {
+            callback(deviceObject);
+        }
     });
 };
 
