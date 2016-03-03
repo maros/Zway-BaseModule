@@ -68,7 +68,7 @@ BaseModule.prototype.handleLevelModification = function(vDev) {
     
     // No lastlevel - set it for the first time
     if (typeof(lastLevel) === 'undefined') {
-        vDev.set('metrics:modificationTime',modificationTime,true,{ silent: true });
+        vDev.set('metrics:modificationTime',modificationTime,{ silent: true });
         vDev.set('metrics:lastLevel',newLevel,{ silent: true });
         return;
     }
@@ -76,11 +76,12 @@ BaseModule.prototype.handleLevelModification = function(vDev) {
     // Not changed
     if (lastLevel == newLevel) return;
     
+    // Run delayed, in order not to delay current processing
     setTimeout(function() {
         // Set modificationTime
         self.log('Set lastLevel to '+newLevel+' for '+vDev.id+' (was '+lastLevel+')');
-        vDev.set('metrics:modificationTime',modificationTime,true,{ silent: true });
-        vDev.set('metrics:lastLevel',newLevel,true,{ silent: true });
+        vDev.set('metrics:modificationTime',modificationTime,{ silent: true });
+        vDev.set('metrics:lastLevel',newLevel,{ silent: true });
     },1);
     
     // Bind to modify:metrics:level to get real changes
