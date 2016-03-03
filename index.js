@@ -140,7 +140,7 @@ BaseModule.prototype.processDeviceList = function(devices,callback) {
     if (! _.isArray(devices) && _.isFunction(callback)) {
         self.error('Invalid arguments for processDeviceList');
         return;
-    } else if (_.isArray(devices)) {
+    } else if (! _.isArray(devices)) {
         devices = [ devices ];
     }
     
