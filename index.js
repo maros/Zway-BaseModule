@@ -31,7 +31,8 @@ BaseModule.prototype.init = function (config) {
     BaseModule.super_.prototype.init.call(this, config);
     var self = this;
     
-    self.langFile = self.controller.loadModuleLang(self.constructor.name);
+    self.langFile   = self.controller.loadModuleLang(self.constructor.name);
+    self.imagePath  = '/ZAutomation/api/v1/load/modulemedia/'+self.constructor.name;
     
     // Only for BaseModule instance
     if (self.constructor.name === 'BaseModule') {
