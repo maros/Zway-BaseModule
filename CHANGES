@@ -1,3 +1,6 @@
+1.07 2016 Mar 18, Fri
+    * Add base image path
+
 1.06 2016 Mar 08, Tue
     * Fix superfluous argument to vDev.set
     * Also accept IDs for getDevice and getDevice value
