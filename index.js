@@ -109,7 +109,7 @@ BaseModule.prototype.getPresenceBoolean = function() {
     var self = this;
     
     var value = self.getDeviceValue([
-        ['probeType','=','Presence']
+        ['probeType','=','presence']
     ]);
     
     if (typeof(value) === 'string' && value === 'on') {
@@ -124,7 +124,7 @@ BaseModule.prototype.getPresenceMode = function() {
     var self = this;
     
     var value = self.getDeviceValue([
-        ['probeType','=','Presence']
+        ['probeType','=','presence']
     ],'metrics:mode');
     
     if (typeof(value) === 'undefined') {
