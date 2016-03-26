@@ -248,7 +248,7 @@ BaseModule.prototype.getDevice = function(criterias) {
     var self = this;
     
     var device;
-    if (typeof(criterias) === 'number') {
+    if (typeof(criterias) === 'string') {
         device = self.controller.devices.get(criterias);
         if (device === 'null')
             device = undefined;
