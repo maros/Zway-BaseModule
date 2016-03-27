@@ -296,14 +296,19 @@ BaseModule.prototype.parseTime = function(timeString) {
         return;
     }
     
-    var match = timeString.match(/^(\d{1,2}):(\d{1,2})$/);
+    var match = timeString.match(/^(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?\s*(am|pm)?$/);
     if (!match) {
         return;
     }
     var hour        = parseInt(match[1],10);
     var minute      = parseInt(match[2],10);
+    var second      = parseInt(match[3] || 0,10);
+    var ampm        = match[4];
+    if (ampm === 'pm' && hour < 12) {
+        hour = hour + 12;
+    }
     var dateCalc    = new Date();
-    dateCalc.setHours(hour, minute,0,0);
+    dateCalc.setHours(hour, minute,second,0);
     
     return dateCalc;
 };
