@@ -169,17 +169,22 @@ BaseModule.prototype.compareDevice = function(vDev,criterias) {
 
     var match;
     _.each(criterias,function(criteria) {
+        // Matched false
+        if (match === false) {
+            return;
         // Device id
-        if (typeof(criteria) === 'string') {
-            if (criteria === vDev.id) {
-                return true;
+        } else if (typeof(criteria) === 'string') {
+            if (criteria !== vDev.id) {
+                match = false;
             }
         // Comparison array
-        } else if (match !== false) {
+        } else  if (_.isArray(criteria)) {
+            // eg. ['metrics:level','=','on']
             var matchKey        = criteria[0];
             var matchComparison = criteria[1];
             var matchValue      = criteria[2];
             var compareValue;
+            // Get value
             if (matchKey === 'zwaveId') {
                 var result = vDev.id.match(/^ZWayVDev_zway_(\d+)-\d+-/m);
                 if (result === null) {
@@ -190,29 +195,33 @@ BaseModule.prototype.compareDevice = function(vDev,criterias) {
             } else {
                 compareValue = vDev.get(matchKey);
             }
+            // Comparison is array
             if (_.isArray(compareValue)) {
-                var matchIndex = (compareValue.indexOf(matchValue) === -1) ? false:true;
-                match = ((matchComparison === '!=' && matchIndex === -1) || (matchComparison === '=' && matchIndex >= 0)) ? true:false;
+                var hasMatch = (compareValue.indexOf(matchValue) === -1) ? false:true;
+                match = ((matchComparison === '!=' && !hasMatch) || (matchComparison === '=' && hasMatch)) ? true:false;
+            // Comparison is scalar
             } else if (typeof(compareValue) !== 'undefined') {
                 if (matchKey === 'metrics:level') {
                     if (vDev.get('deviceType') === 'switchBinary') {
                         if (typeof(matchValue) === 'number') {
-                            compareValue = compareValue === 'on' ? 100:0;
+                            compareValue = (compareValue === 'on' ? 255:0);
                         } else if (typeof(matchValue) === 'boolean') {
-                            compareValue = compareValue === 'on' ? true:false;
+                            compareValue = (compareValue === 'on' ? true:false);
                         }
                     } else if (vDev.get('deviceType') === 'switchMultilevel') {
                         if (typeof(matchValue) === 'string') {
-                            compareValue = compareValue > 0 ? 'on':'off';
+                            compareValue = (compareValue > 0 ? 'on':'off');
                         } else if (typeof(matchValue) === 'boolean') {
-                            compareValue = compareValue > 0 ? true:false;
+                            compareValue = (compareValue > 0 ? true:false);
                         }
                     }
                 }
-                match = self.compare(matchValue,matchComparison,compareValue);
+                match = self.compare(compareValue,matchComparison,matchValue);
             } else {
                 match = false;
             }
+        } else {
+            self.error('Invalid device comparison');
         }
     });
     if (typeof(match) === 'boolean') {
@@ -240,8 +249,6 @@ BaseModule.prototype.getDevice = function(criterias) {
     var device;
     if (typeof(criterias) === 'string') {
         device = self.controller.devices.get(criterias);
-        if (device === 'null')
-            device = undefined;
     } else if (_.isArray(criterias)) {
         self.controller.devices.each(function(vDev) {
             if (typeof(device) === 'undefined') {
@@ -252,7 +259,11 @@ BaseModule.prototype.getDevice = function(criterias) {
             }
         });
     }
-    return device;
+    if (device === null) {
+        return undefined;
+    } else {
+        return device;
+    }
 };
 
 BaseModule.prototype.getDeviceValue = function(criterias,key) {
