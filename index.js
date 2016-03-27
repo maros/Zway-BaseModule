@@ -169,57 +169,47 @@ BaseModule.prototype.compareDevice = function(vDev,criterias) {
 
     var match;
     _.each(criterias,function(criteria) {
-        if (typeof(criteria) === 'number') {
+        // Device id
+        if (typeof(criteria) === 'string') {
             if (criteria === vDev.id) {
                 return true;
             }
+        // Comparison array
         } else if (match !== false) {
             var matchKey        = criteria[0];
             var matchComparison = criteria[1];
             var matchValue      = criteria[2];
-            var value;
+            var compareValue;
             if (matchKey === 'zwaveId') {
                 var result = vDev.id.match(/^ZWayVDev_zway_(\d+)-\d+-/m);
                 if (result === null) {
                     match = false;
                     return;
                 }
-                value = parseInt(result[1],10);
+                compareValue = parseInt(result[1],10);
             } else {
-                value = vDev.get(matchKey);
+                compareValue = vDev.get(matchKey);
             }
-            var matchCriteria;
-            if (typeof(value) === 'object') {
-                matchCriteria = (value.indexOf(matchValue) === -1) ? false:true;
-            } else if (typeof(value) !== 'undefined') {
+            if (_.isArray(compareValue)) {
+                var matchIndex = (compareValue.indexOf(matchValue) === -1) ? false:true;
+                match = ((matchComparison === '!=' && matchIndex === -1) || (matchComparison === '=' && matchIndex >= 0)) ? true:false;
+            } else if (typeof(compareValue) !== 'undefined') {
                 if (matchKey === 'metrics:level') {
                     if (vDev.get('deviceType') === 'switchBinary') {
                         if (typeof(matchValue) === 'number') {
-                            matchValue = matchValue === 0 ? 'off':'on';
+                            compareValue = compareValue === 'on' ? 100:0;
                         } else if (typeof(matchValue) === 'boolean') {
-                            matchValue = matchValue ? 'on':'off';
+                            compareValue = compareValue === 'on' ? true:false;
                         }
                     } else if (vDev.get('deviceType') === 'switchMultilevel') {
                         if (typeof(matchValue) === 'string') {
-                            matchComparison = matchValue === 'on' ? '!=':'=';
-                            matchValue = 0;
+                            compareValue = compareValue > 0 ? 'on':'off';
                         } else if (typeof(matchValue) === 'boolean') {
-                            matchComparison = matchValue ? '!=':'=';
-                            matchValue = 0;
+                            compareValue = compareValue > 0 ? true:false;
                         }
                     }
                 }
-                matchCriteria = (matchValue == value) ? true:false;
-            }
-            if (typeof(matchCriteria) === 'boolean') {
-                switch (matchComparison) {
-                    case('='):
-                        match = matchCriteria;
-                        break;
-                    case('!='):
-                        match = !matchCriteria;
-                        break;
-                }
+                match = self.compare(matchValue,matchComparison,compareValue);
             } else {
                 match = false;
             }
@@ -363,9 +353,17 @@ BaseModule.prototype.checkPeriod = function(timeFrom,timeTo) {
 
 BaseModule.prototype.compare = function (val1, op, val2) {
     if (op === "=") {
-        return val1 === val2;
+        if (_.isRegExp(val1) && _.isString(val2)) {
+            return val2.match(val1) === null;
+        } else {
+            return val1 === val2;
+        }
     } else if (op === "!=") {
-        return val1 !== val2;
+        if (_.isRegExp(val1) && _.isString(val2)) {
+            return val2.match(val1) !== null;
+        } else {
+            return val1 !== val2;
+        }
     } else if (op === ">") {
         return val1 > val2;
     } else if (op === "<") {
