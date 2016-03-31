@@ -88,6 +88,7 @@ BaseModule.prototype.handleLevelModification = function(vDev) {
     // Bind to modify:metrics:level to get real changes
     self.controller.devices.emit('modify:metrics:level',vDev,'metrics:level');
     vDev.emit('modify:metrics:level',vDev,'metrics:level');
+    
 };
 
 /* Log helper functions */
@@ -370,15 +371,15 @@ BaseModule.prototype.checkPeriod = function(timeFrom,timeTo) {
 BaseModule.prototype.compare = function (val1, op, val2) {
     if (op === "=") {
         if (_.isRegExp(val1) && _.isString(val2)) {
-            return val2.match(val1) === null;
+            return val1.match(val2) === null;
         } else {
             return val1 === val2;
         }
     } else if (op === "!=") {
-        if (_.isRegExp(val1) && _.isString(val2)) {
+        if (_.isRegExp(val2) && _.isString(val1)) {
             return val2.match(val1) !== null;
         } else {
-            return val1 !== val2;
+            return val2 !== val1;
         }
     } else if (op === ">") {
         return val1 > val2;
