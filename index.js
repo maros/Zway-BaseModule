@@ -81,13 +81,12 @@ BaseModule.prototype.handleLevelModification = function(vDev) {
     if (deviceType === 'sensorMultilevel') {
         var diff = Math.abs(lastLevel-newLevel);
         var probeType = vDev.get('metrics:probeType');
-        
         if (
-                (probeType == 'luminosity' && (diff > 200 || newLevel > 1000 || newLevel < 0) ||
-                (probeType == 'temperature' && (diff > 10 || newLevel > 50 || newLevel < -50) ||
-                (probeType == 'humidity' && (diff > 20 || newLevel > 100 || newLevel < 5) ||
-                (probeType == 'ultraviolet' && (diff > 3 || newLevel > 15 || newLevel < -1) ||
-                (probeType == 'ultraviolet' && (diff > 3 || newLevel > 15 || newLevel < -1)
+                (probeType == 'luminosity' && (diff > 200 || newLevel > 1000 || newLevel < 0)) ||
+                (probeType == 'temperature' && (diff > 10 || newLevel > 50 || newLevel < -50)) ||
+                (probeType == 'humidity' && (diff > 20 || newLevel > 100 || newLevel < 5)) ||
+                (probeType == 'ultraviolet' && (diff > 3 || newLevel > 15 || newLevel < -1)) ||
+                (probeType == 'ultraviolet' && (diff > 3 || newLevel > 15 || newLevel < -1))
             ) {
             self.error('Unlikely '+probeType+' level change from '+lastLevel+' to '+newLevel+' for '+vDev.id);
         }
