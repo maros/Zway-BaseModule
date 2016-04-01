@@ -369,15 +369,16 @@ BaseModule.prototype.checkPeriod = function(timeFrom,timeTo) {
 };
 
 BaseModule.prototype.compare = function (val1, op, val2) {
+    // match = self.compare(compareValue,matchComparison,matchValue);
     if (op === "=") {
-        if (_.isRegExp(val1) && _.isString(val2)) {
-            return val1.match(val2) === null;
+        if (_.isRegExp(val2) && _.isString(val1)) {
+            return val1.match(val2) !== null;
         } else {
             return val1 === val2;
         }
     } else if (op === "!=") {
         if (_.isRegExp(val2) && _.isString(val1)) {
-            return val2.match(val1) !== null;
+            return val1.match(val2) === null;
         } else {
             return val2 !== val1;
         }
@@ -389,6 +390,8 @@ BaseModule.prototype.compare = function (val1, op, val2) {
         return val1 >= val2;
     } else if (op === "<=") {
         return val1 <= val2;
+    } else {
+        console.error('Invalid comparison operator '+op);
     }
     
     return null; // error!!  
