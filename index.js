@@ -155,7 +155,7 @@ BaseModule.prototype.getPresenceMode = function() {
 BaseModule.prototype.processDeviceList = function(devices,callback) {
     var self = this;
     if (! _.isFunction(callback)) {
-        self.error('Invalid arguments for processDeviceList');
+        self.error('Invalid callback for processDeviceList');
         return;
     }
     
@@ -164,19 +164,20 @@ BaseModule.prototype.processDeviceList = function(devices,callback) {
     }
     
     _.each(devices,function(device) {
-        var deviceObject;
+        var vDev;
         if (typeof(device) === 'string') {
-            deviceObject = self.controller.devices.get(device);
-            if (deviceObject === null) {
+            vDev = self.controller.devices.get(device);
+            if (vDev === null) {
                 self.error('Device not found: '+device);
                 return;
             }
+        } else if (typeof(device) === 'object') {
+            vDev = device;
         } else {
-            deviceObject = device;
+            self.error('Invalid device '+device);
+            return;
         }
-        if (typeof(deviceObject) === 'object') {
-            callback(deviceObject);
-        }
+        callback(vDev);
     });
 };
 
@@ -244,6 +245,22 @@ BaseModule.prototype.compareDevice = function(vDev,criterias) {
         return match;
     }
     return false;
+};
+
+BaseModule.prototype.processDevices = function(criterias,callback) {
+    var self = this;
+    
+    if (! _.isFunction(callback)) {
+        self.error('Invalid callback for processDevices');
+        return;
+    }
+    
+    self.controller.devices.each(function(vDev) {
+        var match = self.compareDevice(vDev,criterias);
+        if(match === true) {
+            callback(vDev);
+        }
+    });
 };
 
 BaseModule.prototype.getDevices = function(criterias) {

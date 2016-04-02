@@ -76,6 +76,17 @@ Returns the selected value of the the first matching device. If no value is
 given metrics:level will be returned. 
 Criteria are evaluated using the compareDevice method
 
+## processDevices
+
+```javascript
+self.processDevices([
+    ['probeTitle','=','temperature'],
+    ['location','=',3]
+],function(vDev) { ... });
+```
+
+Find the selected devices and process a callback for each device.
+
 ## performCommandDevices
 
 Performs a given command on all devices matching the selected criteria.
