@@ -66,6 +66,7 @@ BaseModule.prototype.handleLevelModification = function(vDev) {
     var lastLevel           = vDev.get('metrics:lastLevel');
     var newLevel            = vDev.get('metrics:level');
     var deviceType          = vDev.get('deviceType');
+    var lastUpdate          = vDev.get('metrics:changeTime');
     var modificationTime    = Math.floor(new Date().getTime() / 1000);
     
     // No lastlevel - set it for the first time
@@ -81,12 +82,16 @@ BaseModule.prototype.handleLevelModification = function(vDev) {
     if (deviceType === 'sensorMultilevel') {
         var diff = Math.abs(lastLevel-newLevel);
         var probeType = vDev.get('metrics:probeType');
+        // Ignore diff for changes of more than 4 hours
+        if (modificationTime-lastUpdate > (4*60*60)) {
+            diff = 0;
+        }
         if (
-                (probeType == 'luminosity' && (diff > 200 || newLevel > 1000 || newLevel < 0)) ||
-                (probeType == 'temperature' && (diff > 10 || newLevel > 50 || newLevel < -50)) ||
+                (probeType == 'luminosity' && (diff > 250 || newLevel > 1000 || newLevel < 0)) ||
+                (probeType == 'temperature' && (diff > 10 || newLevel > 50 || newLevel < -30)) ||
                 (probeType == 'humidity' && (diff > 20 || newLevel > 100 || newLevel < 5)) ||
-                (probeType == 'ultraviolet' && (diff > 3 || newLevel > 15 || newLevel < -1)) ||
-                (probeType == 'ultraviolet' && (diff > 3 || newLevel > 15 || newLevel < -1))
+                (probeType == 'ultraviolet' && (diff > 4 || newLevel > 15 || newLevel < -1)) ||
+                (probeType == 'ultraviolet' && (diff > 4 || newLevel > 15 || newLevel < -1))
             ) {
             self.error('Unlikely '+probeType+' level change from '+lastLevel+' to '+newLevel+' for '+vDev.id);
         }
