@@ -1,3 +1,14 @@
+1.08 2016 Apr 20, Wed
+    * Add processDevices helper
+    * Improve sanity checks
+    * Alert on unlikely level changes
+    * Fix regexp comparison
+    * Fix device search
+    * Update time parser to handle HH:MM:SS am/pm
+    * Refactor comparison
+    * Fix getDevice by ID
+    * Update presence probeType
+
 1.07 2016 Mar 18, Fri
     * Add base image path
 
