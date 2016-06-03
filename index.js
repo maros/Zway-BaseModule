@@ -66,7 +66,7 @@ BaseModule.prototype.handleLevelModification = function(vDev) {
     var lastLevel           = vDev.get('metrics:lastLevel');
     var newLevel            = vDev.get('metrics:level');
     var deviceType          = vDev.get('deviceType');
-    var lastUpdate          = vDev.get('metrics:changeTime');
+    var lastUpdate          = vDev.get('updateTime');
     var modificationTime    = Math.floor(new Date().getTime() / 1000);
     
     // No lastlevel - set it for the first time
@@ -79,6 +79,7 @@ BaseModule.prototype.handleLevelModification = function(vDev) {
     // Not changed
     if (lastLevel == newLevel) return;
     
+    // Warn on big level changes - TODO maybe deny too big changes
     if (deviceType === 'sensorMultilevel') {
         var diff = Math.abs(lastLevel-newLevel);
         var probeType = vDev.get('metrics:probeType');
