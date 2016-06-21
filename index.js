@@ -165,6 +165,10 @@ BaseModule.prototype.processDeviceList = function(devices,callback) {
         return;
     }
     
+    if (typeof(devices) === 'undefined') {
+        return;
+    }
+    
     if (! _.isArray(devices)) {
         devices = [ devices ];
     }
