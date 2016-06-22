@@ -91,7 +91,6 @@ BaseModule.prototype.handleLevelModification = function(vDev) {
                 (probeType == 'luminosity' && (diff > 250 || newLevel > 1000 || newLevel < 0)) ||
                 (probeType == 'temperature' && (diff > 10 || newLevel > 50 || newLevel < -30)) ||
                 (probeType == 'humidity' && (diff > 20 || newLevel > 100 || newLevel < 5)) ||
-                (probeType == 'ultraviolet' && (diff > 4 || newLevel > 15 || newLevel < -1)) ||
                 (probeType == 'ultraviolet' && (diff > 4 || newLevel > 15 || newLevel < -1))
             ) {
             self.error('Unlikely '+probeType+' level change from '+lastLevel+' to '+newLevel+' for '+vDev.id);
@@ -109,7 +108,6 @@ BaseModule.prototype.handleLevelModification = function(vDev) {
     // Bind to modify:metrics:level to get real changes
     self.controller.devices.emit('modify:metrics:level',vDev,'metrics:level');
     vDev.emit('modify:metrics:level',vDev,'metrics:level');
-    
 };
 
 /* Log helper functions */
@@ -138,6 +136,7 @@ BaseModule.prototype.getPresenceBoolean = function() {
         return true;
     } else if (typeof(value) === 'undefined') {
         self.error('Could not find presence device');
+        return true; // Fallback
     }
     return false;
 };
@@ -151,6 +150,7 @@ BaseModule.prototype.getPresenceMode = function() {
     
     if (typeof(value) === 'undefined') {
         self.error('Could not find presence device');
+        return 'home'; // Fallback
     }
     
     return value;
@@ -167,9 +167,7 @@ BaseModule.prototype.processDeviceList = function(devices,callback) {
     
     if (typeof(devices) === 'undefined') {
         return;
-    }
-    
-    if (! _.isArray(devices)) {
+    } else if (! _.isArray(devices)) {
         devices = [ devices ];
     }
     
