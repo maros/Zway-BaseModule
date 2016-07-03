@@ -1,3 +1,8 @@
+1.09 2016 Jul 03, Sun
+    * Cleanup and add fallbacks
+    * Check for undefinedness
+    * Use correct key to access last update time
+
 1.08 2016 Apr 20, Wed
     * Add processDevices helper
     * Improve sanity checks
