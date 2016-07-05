@@ -189,8 +189,8 @@ git checkout tags/1.02
 git checkout -b master --track origin/master
 ```
 
-Even though this module has no user-facing functionallity on its own it has
-to be insantiated via Apps > Local Apps before it can be used by other modules.
+Even though this module has no user-facing functionality on its own it has
+to be instantiated via Apps > Local Apps before it can be used by other modules.
 
 # License
 
