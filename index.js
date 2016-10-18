@@ -15,7 +15,7 @@ Description:
 function BaseModule (id, controller) {
     // Call superconstructor first (AutomationModule)
     BaseModule.super_.call(this, id, controller);
-    
+
     this.langFile       = undefined;
 }
 
@@ -30,10 +30,10 @@ _module = BaseModule;
 BaseModule.prototype.init = function (config) {
     BaseModule.super_.prototype.init.call(this, config);
     var self = this;
-    
+
     self.langFile   = self.controller.loadModuleLang(self.constructor.name);
     self.imagePath  = '/ZAutomation/api/v1/load/modulemedia/'+self.constructor.name;
-    
+
     // Only for BaseModule instance
     if (self.constructor.name === 'BaseModule') {
         self.log('Init callbacks');
@@ -44,13 +44,13 @@ BaseModule.prototype.init = function (config) {
 
 BaseModule.prototype.stop = function () {
     var self = this;
-    
+
     // Only for BaseModule instance
     if (self.constructor.name === 'BaseModule') {
         self.controller.devices.off('change:metrics:level',self.callbackBase);
         self.callbackBase = undefined;
     }
-    
+
     BaseModule.super_.prototype.stop.call(this);
 };
 
@@ -62,23 +62,23 @@ BaseModule.prototype.presenceModes = ['home','night','away','vacation'];
 
 BaseModule.prototype.handleLevelModification = function(vDev) {
     var self = this;
-    
+
     var lastLevel           = vDev.get('metrics:lastLevel');
     var newLevel            = vDev.get('metrics:level');
     var deviceType          = vDev.get('deviceType');
     var lastUpdate          = vDev.get('updateTime');
     var modificationTime    = Math.floor(new Date().getTime() / 1000);
-    
+
     // No lastlevel - set it for the first time
     if (typeof(lastLevel) === 'undefined') {
         vDev.set('metrics:modificationTime',modificationTime,{ silent: true });
         vDev.set('metrics:lastLevel',newLevel,{ silent: true });
         return;
     }
-    
+
     // Not changed
     if (lastLevel == newLevel) return;
-    
+
     // Warn on big level changes - TODO maybe deny too big changes
     if (deviceType === 'sensorMultilevel') {
         var diff = Math.abs(lastLevel-newLevel);
@@ -96,7 +96,7 @@ BaseModule.prototype.handleLevelModification = function(vDev) {
             self.error('Unlikely '+probeType+' level change from '+lastLevel+' to '+newLevel+' for '+vDev.id);
         }
     }
-    
+
     // Run delayed, in order not to delay current processing
     setTimeout(function() {
         // Set modificationTime
@@ -104,7 +104,7 @@ BaseModule.prototype.handleLevelModification = function(vDev) {
         vDev.set('metrics:modificationTime',modificationTime,{ silent: true });
         vDev.set('metrics:lastLevel',newLevel,{ silent: true });
     },1);
-    
+
     // Bind to modify:metrics:level to get real changes
     self.controller.devices.emit('modify:metrics:level',vDev,'metrics:level');
     vDev.emit('modify:metrics:level',vDev,'metrics:level');
@@ -127,11 +127,11 @@ BaseModule.prototype.error = function(message) {
 
 BaseModule.prototype.getPresenceBoolean = function() {
     var self = this;
-    
+
     var value = self.getDeviceValue([
         ['probeType','=','presence']
     ]);
-    
+
     if (typeof(value) === 'string' && value === 'on') {
         return true;
     } else if (typeof(value) === 'undefined') {
@@ -143,16 +143,16 @@ BaseModule.prototype.getPresenceBoolean = function() {
 
 BaseModule.prototype.getPresenceMode = function() {
     var self = this;
-    
+
     var value = self.getDeviceValue([
         ['probeType','=','presence']
     ],'metrics:mode');
-    
+
     if (typeof(value) === 'undefined') {
         self.error('Could not find presence device');
         return 'home'; // Fallback
     }
-    
+
     return value;
 };
 
@@ -164,13 +164,13 @@ BaseModule.prototype.processDeviceList = function(devices,callback) {
         self.error('Invalid callback for processDeviceList');
         return;
     }
-    
+
     if (typeof(devices) === 'undefined') {
         return;
     } else if (! _.isArray(devices)) {
         devices = [ devices ];
     }
-    
+
     _.each(devices,function(device) {
         var vDev;
         if (typeof(device) === 'string') {
@@ -257,12 +257,12 @@ BaseModule.prototype.compareDevice = function(vDev,criterias) {
 
 BaseModule.prototype.processDevices = function(criterias,callback) {
     var self = this;
-    
+
     if (! _.isFunction(callback)) {
         self.error('Invalid callback for processDevices');
         return;
     }
-    
+
     self.controller.devices.each(function(vDev) {
         var match = self.compareDevice(vDev,criterias);
         if(match === true) {
@@ -273,7 +273,7 @@ BaseModule.prototype.processDevices = function(criterias,callback) {
 
 BaseModule.prototype.getDevices = function(criterias) {
     var self = this;
-    
+
     var devices = [];
     self.controller.devices.each(function(vDev) {
         var match = self.compareDevice(vDev,criterias);
@@ -286,7 +286,7 @@ BaseModule.prototype.getDevices = function(criterias) {
 
 BaseModule.prototype.getDevice = function(criterias) {
     var self = this;
-    
+
     var device;
     if (typeof(criterias) === 'string') {
         device = self.controller.devices.get(criterias);
@@ -321,11 +321,11 @@ BaseModule.prototype.getDeviceValue = function(criterias,key) {
 BaseModule.prototype.performCommandDevices = function(criterias,command,args,auto) {
     var self = this;
     args = args || {};
-    
+
     var devices = [];
     self.controller.devices.each(function(vDev) {
         var match = self.compareDevice(vDev,criterias);
-        
+
         if(match === true) {
             devices.push(vDev);
             if (typeof(command) !== 'undefined') {
@@ -347,7 +347,7 @@ BaseModule.prototype.parseTime = function(timeString) {
     if (typeof(timeString) === 'undefined') {
         return;
     }
-    
+
     var match = timeString.match(/^(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?\s*(am|pm)?$/);
     if (!match) {
         return;
@@ -361,15 +361,15 @@ BaseModule.prototype.parseTime = function(timeString) {
     }
     var dateCalc    = new Date();
     dateCalc.setHours(hour, minute,second,0);
-    
+
     return dateCalc;
 };
 
 BaseModule.prototype.checkPeriod = function(timeFrom,timeTo) {
     var self = this;
-    
+
     var dateNow = new Date();
-    
+
     // Check from/to time
     if (typeof(timeFrom) === 'string') {
         timeFrom = self.parseTime(timeFrom);
@@ -377,12 +377,12 @@ BaseModule.prototype.checkPeriod = function(timeFrom,timeTo) {
     if (typeof(timeTo) === 'string') {
         timeTo = self.parseTime(timeTo);
     }
-    
+
     if (typeof(timeFrom) === 'undefined'
         || typeof(timeTo) === 'undefined') {
         return true;
     }
-    
+
     // Period over midnight
     if (timeFrom > timeTo) {
         if (timeTo < dateNow) {
@@ -399,11 +399,11 @@ BaseModule.prototype.checkPeriod = function(timeFrom,timeTo) {
             timeFrom.setHours(fromHour,fromMinute);
         }
     }
-    
+
     if (timeFrom > dateNow || dateNow > timeTo) {
         return false;
     }
-    
+
     self.log('Match '+timeFrom+'-'+timeTo);
     return true;
 };
@@ -433,8 +433,8 @@ BaseModule.prototype.compare = function (val1, op, val2) {
     } else {
         console.error('Invalid comparison operator '+op);
     }
-    
-    return null; // error!!  
+
+    return null; // error!!
 };
 
 //----------------------------------------------------------------------------
@@ -504,7 +504,7 @@ TimeoutManager.prototype.clear    = function(id) {
 TimeoutManager.prototype.clearAll = function() {
     var self   = this;
     for (var id in self.timeouts) {
-        if (self.timeouts.hasOwnProperty(id)  
+        if (self.timeouts.hasOwnProperty(id)
             && typeof(self.timeouts[id]) !== "undefined") {
             self.timeouts[id].clear();
         }
@@ -524,7 +524,7 @@ function Timeout(scope,fn,interval) {
     }
     args.unshift(scope);
     fn          = fn || function() {};
-    
+
     self.fn     = Function.prototype.bind.apply(fn,args);
     self.id     = setTimeout(self.run.bind(self),interval);
     self.cleared= false;
