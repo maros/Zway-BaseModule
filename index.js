@@ -165,7 +165,7 @@ BaseModule.prototype.processDeviceList = function(devices,callback) {
         return;
     }
 
-    if (typeof(devices) === 'undefined') {
+    if (_.isUndefined(devices) === 'undefined') {
         return;
     } else if (! _.isArray(devices)) {
         devices = [ devices ];
@@ -173,16 +173,14 @@ BaseModule.prototype.processDeviceList = function(devices,callback) {
 
     _.each(devices,function(device) {
         var vDev;
-        if (typeof(device) === 'string') {
+        if (_.isString(device)) {
             vDev = self.controller.devices.get(device);
-            if (vDev === null) {
-                self.error('Device not found: '+device);
-                return;
-            }
-        } else if (typeof(device) === 'object') {
+
+        } else if (_.isObject(device)) {
             vDev = device;
-        } else {
-            self.error('Invalid device '+device);
+        }
+        if (_.isNull(vDev) || _.isUndefined(vDev)) {
+            self.error('Device not found '+device);
             return;
         }
         callback(vDev);
@@ -198,7 +196,7 @@ BaseModule.prototype.compareDevice = function(vDev,criterias) {
         if (match === false) {
             return;
         // Device id
-        } else if (typeof(criteria) === 'string') {
+        } else if (_.isString(criteria)) {
             if (criteria !== vDev.id) {
                 match = false;
             }
