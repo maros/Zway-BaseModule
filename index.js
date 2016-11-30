@@ -192,10 +192,10 @@ BaseModule.prototype.compareDevice = function(vDev,criterias) {
 
     var match;
     _.each(criterias,function(criteria) {
-        // Matched false
+        // Matched false - skip the rest
         if (match === false) {
             return;
-        // Device id
+        // Device ID
         } else if (_.isString(criteria)) {
             if (criteria !== vDev.id) {
                 match = false;
@@ -205,7 +205,7 @@ BaseModule.prototype.compareDevice = function(vDev,criterias) {
             // eg. ['metrics:level','=','on']
             var matchKey        = criteria[0];
             var matchComparison = criteria[1];
-            var matchValue      = criteria[2];
+            var matchList       = criteria[2];
             var compareValue;
             // Get value
             if (matchKey === 'zwaveId') {
@@ -218,31 +218,40 @@ BaseModule.prototype.compareDevice = function(vDev,criterias) {
             } else {
                 compareValue = vDev.get(matchKey);
             }
-            // Comparison is array
-            if (_.isArray(compareValue)) {
-                var hasMatch = (compareValue.indexOf(matchValue) === -1) ? false:true;
-                match = ((matchComparison === '!=' && !hasMatch) || (matchComparison === '=' && hasMatch)) ? true:false;
-            // Comparison is scalar
-            } else if (typeof(compareValue) !== 'undefined') {
-                if (matchKey === 'metrics:level') {
-                    if (vDev.get('deviceType') === 'switchBinary') {
-                        if (typeof(matchValue) === 'number') {
-                            compareValue = (compareValue === 'on' ? 255:0);
-                        } else if (typeof(matchValue) === 'boolean') {
-                            compareValue = (compareValue === 'on' ? true:false);
-                        }
-                    } else if (vDev.get('deviceType') === 'switchMultilevel') {
-                        if (typeof(matchValue) === 'string') {
-                            compareValue = (compareValue > 0 ? 'on':'off');
-                        } else if (typeof(matchValue) === 'boolean') {
-                            compareValue = (compareValue > 0 ? true:false);
+
+            if (!_.isArray(matchList)) {
+                matchList = [ matchList ];
+            }
+
+            var matchFirst = _.find(matchList,function(matchValue) {
+                // Comparison is array
+                if (_.isArray(compareValue)) {
+                    var hasMatch = (compareValue.indexOf(matchValue) === -1) ? false:true;
+                    return ((matchComparison === '!=' && !hasMatch) || (matchComparison === '=' && hasMatch)) ? true:false;
+                // Comparison is scalar
+                } else if (typeof(compareValue) !== 'undefined') {
+                    if (matchKey === 'metrics:level') {
+                        if (vDev.get('deviceType') === 'switchBinary') {
+                            if (typeof(matchValue) === 'number') {
+                                compareValue = (compareValue === 'on' ? 255:0);
+                            } else if (typeof(matchValue) === 'boolean') {
+                                compareValue = (compareValue === 'on' ? true:false);
+                            }
+                        } else if (vDev.get('deviceType') === 'switchMultilevel') {
+                            if (typeof(matchValue) === 'string') {
+                                compareValue = (compareValue > 0 ? 'on':'off');
+                            } else if (typeof(matchValue) === 'boolean') {
+                                compareValue = (compareValue > 0 ? true:false);
+                            }
                         }
                     }
+                    return self.compare(compareValue,matchComparison,matchValue);
+                } else {
+                    return false;
                 }
-                match = self.compare(compareValue,matchComparison,matchValue);
-            } else {
-                match = false;
-            }
+            });
+
+            match = ! _.isUndefined(matchFirst);
         } else {
             self.error('Invalid device comparison');
         }
