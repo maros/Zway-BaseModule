@@ -40,15 +40,15 @@ instead of console.log and console.error
 
 ## presenceModes
 
-List of all available presence modes.
+List all available presence modes.
 
 ## getPresenceBoolean
 
-Returns presence state as boolean from the presence device 
+Returns presence state as boolean value (true = at home, false = away) from the presence device
 
 ## getPresenceMode
 
-Returns the current presence mode from the presence device
+Returns the current presence mode as string from the presence device
 
 ## getDevices
 
@@ -56,7 +56,7 @@ Returns the current presence mode from the presence device
 var myBatteryDevices = self.getDevices([['probeTitle','=','Battery']]);
 ```
 
-Returns a list of devices that match the given criteria. Criteria are 
+Returns a list of devices that match the given criteria. Criteria are
 evaluated using the compareDevice method.
 
 ## getDevice
@@ -73,7 +73,7 @@ var temperature = self.getDeviceValue([
 ```
 
 Returns the selected value of the the first matching device. If no value is
-given metrics:level will be returned. 
+given metrics:level will be returned.
 Criteria are evaluated using the compareDevice method
 
 ## processDevices
@@ -108,7 +108,7 @@ var temperature = self.performCommandDevices([
 This method is used by performCommandDevices, getDeviceValue, getDevice and
 getDevices to check if a device matches given criteria or not.
 
-Criteria must be supplied as an array of arrays where the nested array has 
+Criteria must be supplied as an array of arrays where the nested array has
 three values.
 
 ```
@@ -117,21 +117,21 @@ three values.
 ]
 ```
 
-Key may be any key from the virtual device object (with colons when using 
+Key may be any key from the virtual device object (with colons when using
 nested keys) and additionally zwaveId.
 
-Comparison can be either '=' or '!='.
+Comparison can be either '=', '!=', '>', '>=', '<' or '<='.
 
 Value can be a string, boolean or array value. If the value is an array, a
 device matches if any of the array values matches.
 
-To simplify handling of multilevel and binary switches, metrics:level can 
-both be queried with the values 'on','off', true and false. (ie. 
+To simplify handling of multilevel and binary switches, metrics:level can
+both be queried with the values 'on','off', true and false. (ie.
 ['metrics:level','=','on'] would also find multilevel switches with level >= 1
 
 ## processDeviceList
 
-Processes a callback for each device in the list of device 
+Processes a callback for each device in the list of device
 
 ```javascript
 self.processDeviceList(self.config.devices,function(vDev) {
@@ -141,12 +141,12 @@ self.processDeviceList(self.config.devices,function(vDev) {
 
 ## parseTime
 
-Parses a string in the format HH:MM and returns a Date object (current day)
+Parses a string in the format HH:MM and returns a Date object fot the current day
 
 ## checkPeriod
 
-Expects two time strings (HH:MM) marking a period, and calculates if the 
-period is currently active.
+Expects two time strings (HH:MM) marking a period, and calculates if the
+period is currently matching.
 
 # Configuration
 
@@ -158,18 +158,18 @@ No virtual device is created
 
 # Events
 
-All virtual devices will emit a modify:metrics:level event if the 
+All virtual devices will emit a modify:metrics:level event if the
 metrics:level value was modified. In contrast to change this event will only
 be triggered if metrics:level was set with a different value.
 
 # Installation
 
 The prefered way of installing this module is via the "Zwave.me App Store"
-available in 2.2.0 and higher. For stable module releases no access token is 
-required. If you want to test the latest pre-releases use 'k1_beta' as 
+available in 2.2.0 and higher. For stable module releases no access token is
+required. If you want to test the latest pre-releases use 'k1_beta' as
 app store access token.
 
-For developers and users of older Zway versions installation via git is 
+For developers and users of older Zway versions installation via git is
 recommended.
 
 ```shell
@@ -196,7 +196,7 @@ to be instantiated via Apps > Local Apps before it can be used by other modules.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or any 
+the Free Software Foundation, either version 3 of the License, or any
 later version.
 
 This program is distributed in the hope that it will be useful,
