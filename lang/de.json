@@ -1,4 +1,4 @@
 {
-   "m_descr" : "Dieses Modul wird von vielen anderen Automatisierungs Modulen benötig. Es hat keine eigene Funktionalität, beitet aber viele Hilfsfunktionen für andere Module.<br>Siehe <a href=https://github.com/maros/Zway-BaseModule/blob/master/README.md>github.com/maros/Zway-BaseModule</a> für detailliertere Dokumentation.",
+   "m_descr" : "Dieses Modul wird von vielen anderen Automatisierungs Modulen benötig. Es hat keine eigene Funktionalität, beitet aber viele Hilfsfunktionen für andere Module.<br>Dieses Modul benötigt keine separate Konfiguration: Einfach nur eine Instanz erstellen damit es aktiv ist.<br>Siehe <a href=https://github.com/maros/Zway-BaseModule/blob/master/README.md>github.com/maros/Zway-BaseModule</a> für detailliertere Dokumentation.",
    "m_title" : "Basis Module"
 }
