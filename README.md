@@ -3,6 +3,15 @@
 Module which provides many useful functions for other automation modules.
 Has no user facing functionality on its own.
 
+As a user of this app you just have to instantiate it once via Apps >
+Local Apps > Base Module > Add App. (or let another app that depends on
+BaseModule instantiate it). No configuration settings are required.
+
+# Developers
+
+The following documentation is only relevant to developers of Zway automation
+modules.
+
 For basic usage just replace one line from the module initialisation
 
 ```javascript
