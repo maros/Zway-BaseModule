@@ -1,7 +1,7 @@
 /*** BaseModule Z-Way HA module *******************************************
 
 Version: 1.09
-(c) Maroš Kollár, 2015
+(c) Maroš Kollár, 2015-2017
 -----------------------------------------------------------------------------
 Author: Maroš Kollár <maros@k-1.com>
 Description:
