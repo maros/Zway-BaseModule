@@ -391,8 +391,8 @@ BaseModule.prototype.checkPeriod = function(timeFrom,timeTo) {
     }
 
     // Period over midnight
-    if (timeFrom > timeTo) {
-        if (timeTo < dateNow) {
+    if (timeFrom >= timeTo) {
+        if (timeTo <= dateNow) {
             var toHour   = timeTo.getHours();
             var toMinute = timeTo.getMinutes();
             timeTo.setHours(toHour + 24);
