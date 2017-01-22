@@ -1,3 +1,9 @@
+1.10 2017 Jan 22, Sun
+    * Improved period search: Close gaps
+    * Update documentation
+    * Improved device search to allow multiple search values
+    * Internal changes
+
 1.09 2016 Jul 03, Sun
     * Cleanup and add fallbacks
     * Check for undefinedness
