@@ -1,4 +1,5 @@
 {
    "m_descr" : "This module is required by many other automation modules. It does not provide any user functionality on its own.<br>No configuration is needed - just create one instance of this module.<br>Check <a href=https://github.com/maros/Zway-BaseModule/blob/master/README.md>github.com/maros/Zway-BaseModule</a> for detailed documentation.",
-   "m_title" : "Base Module"
+   "m_title" : "Base Module",
+   "m_ignore" : "Ignore duplicate values"	
 }

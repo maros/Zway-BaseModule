@@ -1,25 +1,38 @@
-{
-   "author" : "Maroš Kollár",
-   "category" : "developers_stuff",
-   "defaults" : {
-      "description" : "__m_descr__",
-      "title" : "__m_title__"
+{  
+   "author":"Maroš Kollár",
+   "category":"developers_stuff",
+   "defaults":{  
+      "description":"__m_descr__",
+      "title":"__m_title__",
+      "ignore":true
    },
-   "dependencies" : [],
-   "homepage" : "https://github.com/maros/Zway-BaseModule/",
-   "icon" : "icon.png",
-   "maturity" : "stable",
-   "moduleName" : "BaseModule",
-   "options" : {
-      "fields" : {}
+   "dependencies":[  
+
+   ],
+   "homepage":"https://github.com/maros/Zway-BaseModule/",
+   "icon":"icon.png",
+   "maturity":"stable",
+   "moduleName":"BaseModule",
+   "options":{  
+      "fields":{  
+         "ignore":{  
+            "label":"__m_ignore__",
+            "order":1
+         }
+      }
    },
-   "repository" : {
-      "source" : "https://github.com/maros/Zway-BaseModule",
-      "type" : "git"
+   "repository":{  
+      "source":"https://github.com/maros/Zway-BaseModule",
+      "type":"git"
    },
-   "schema" : {
-      "properties" : {}
+   "schema":{  
+      "properties":{  
+         "ignore":{  
+            "type":"boolean",
+            "required":true
+         }
+      }
    },
-   "singleton" : true,
-   "version" : "1.10"
+   "singleton":true,
+   "version":"1.10"
 }
