@@ -77,7 +77,7 @@ BaseModule.prototype.handleLevelModification = function(vDev) {
     }
 
     // Not changed
-    if (lastLevel == newLevel) return;
+    if (lastLevel == newLevel && self.config.ignore) return;
 
     // Warn on big level changes - TODO maybe deny too big changes
     if (deviceType === 'sensorMultilevel') {
