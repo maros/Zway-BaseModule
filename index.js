@@ -357,6 +357,7 @@ BaseModule.prototype.parseTime = function(timeString) {
 
     var match = timeString.match(/^(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?\s*(am|pm)?$/);
     if (!match) {
+        this.log('Could not parse time: '+timeString);
         return;
     }
     var hour        = parseInt(match[1],10);
