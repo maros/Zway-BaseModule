@@ -217,6 +217,14 @@ BaseModule.prototype.compareDevice = function(vDev,criterias) {
                 compareValue = parseInt(result[1],10);
             } else {
                 compareValue = vDev.get(matchKey);
+                // Fall back for metrics:level if no target is set
+                if (typeof(compareValue) === 'undefined' && matchKey === 'metrics:target') {
+                    compareValue = vDev.get('metrics:level');
+                }
+            }
+
+            if (typeof(compareValue) === 'undefined') {
+                return false;
             }
 
             if (!_.isArray(matchList)) {
@@ -229,8 +237,8 @@ BaseModule.prototype.compareDevice = function(vDev,criterias) {
                     var hasMatch = (compareValue.indexOf(matchValue) === -1) ? false:true;
                     return ((matchComparison === '!=' && !hasMatch) || (matchComparison === '=' && hasMatch)) ? true:false;
                 // Comparison is scalar
-                } else if (typeof(compareValue) !== 'undefined') {
-                    if (matchKey === 'metrics:level') {
+                } else {
+                    if (matchKey === 'metrics:level' || matchKey === 'metrics:target') {
                         if (vDev.get('deviceType') === 'switchBinary') {
                             if (typeof(matchValue) === 'number') {
                                 compareValue = (compareValue === 'on' ? 255:0);
@@ -246,8 +254,6 @@ BaseModule.prototype.compareDevice = function(vDev,criterias) {
                         }
                     }
                     return self.compare(compareValue,matchComparison,matchValue);
-                } else {
-                    return false;
                 }
             });
 
