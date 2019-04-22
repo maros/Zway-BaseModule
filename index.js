@@ -224,7 +224,7 @@ BaseModule.prototype.compareDevice = function(vDev,criterias) {
                 }
             }
 
-            if (typeof(compareValue) === 'undefined') {
+            if (typeof(compareValue) === 'undefined' || compareValue === null) {
                 return false;
             }
 
