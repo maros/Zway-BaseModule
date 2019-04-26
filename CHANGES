@@ -1,3 +1,9 @@
+1.11 2019 Apr 26, Fri
+    * Also handle null values in comparison
+    * Improve handling of metrics:target
+    * Improve compare value fallbacks
+    * Log time parse errors
+
 1.10 2017 Jan 22, Sun
     * Improved period search: Close gaps
     * Update documentation
